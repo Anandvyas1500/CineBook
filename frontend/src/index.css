@@ -1,0 +1,123 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html { color-scheme: dark; scroll-behavior: smooth; }
+  body {
+    background-color: #0B0B10;
+    color: #F5F3EE;
+    font-family: 'Manrope', system-ui, sans-serif;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3 { text-wrap: balance; }
+  ::selection { background: #FFB224; color: #1A1204; }
+  :focus-visible { outline: 2px solid #FFB224; outline-offset: 2px; border-radius: 6px; }
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: #0B0B10; }
+  ::-webkit-scrollbar-thumb { background: #2A2A38; border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: #FFB224; }
+  .scrollbar-none { scrollbar-width: none; }
+  .scrollbar-none::-webkit-scrollbar { display: none; }
+  input[type='number']::-webkit-inner-spin-button { opacity: 0.4; }
+}
+
+@layer components {
+  /* ---------- buttons ---------- */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-bold tracking-wide
+           transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed select-none;
+  }
+  .btn-primary { @apply btn bg-brand text-on-brand hover:bg-brand-hover shadow-glow-sm hover:shadow-glow active:scale-[0.98]; }
+  .btn-ghost   { @apply btn bg-white/5 text-ink border border-white/10 hover:bg-white/10 hover:border-white/20; }
+  .btn-danger  { @apply btn bg-velvet/15 text-velvet-soft border border-velvet/40 hover:bg-velvet/25; }
+  .btn-sm { @apply px-3.5 py-2 text-xs rounded-lg; }
+
+  /* ---------- surfaces & inputs ---------- */
+  .card { @apply bg-raised border border-line rounded-2xl; }
+  .input {
+    @apply w-full bg-canvas/80 border border-white/10 rounded-xl px-4 py-3 text-sm text-ink placeholder-faint
+           transition-colors focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand;
+  }
+  .label { @apply block text-[11px] font-bold uppercase tracking-[0.14em] text-muted mb-1.5; }
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-semibold border border-white/10
+           bg-white/5 text-muted hover:text-ink hover:bg-white/10 transition-colors;
+  }
+  .chip-active { @apply bg-brand text-on-brand border-brand hover:bg-brand-hover hover:text-on-brand; }
+
+  /* ---------- typography helpers ---------- */
+  .display { @apply font-display uppercase tracking-wide leading-[0.95]; }
+  .eyebrow { @apply text-[11px] font-bold uppercase tracking-[0.22em] text-brand; }
+  .text-glow { text-shadow: 0 0 22px rgba(255, 178, 36, 0.45); }
+
+  /* ---------- signature motifs ---------- */
+  /* marquee light bulbs: a row of warm dots that gently pulse */
+  .marquee-lights {
+    height: 8px;
+    background: radial-gradient(circle at 50% 50%, #FFD98A 0 2.2px, #FFB224 2.6px 3.4px, transparent 4px) 0 0 / 18px 8px repeat-x;
+    filter: drop-shadow(0 0 4px rgba(255, 178, 36, 0.75));
+    animation: bulb 2.6s ease-in-out infinite;
+  }
+  /* film-strip sprocket holes */
+  .sprockets {
+    height: 14px;
+    background:
+      linear-gradient(#0B0B10, #0B0B10) 0 0 / 100% 100% no-repeat,
+      repeating-linear-gradient(90deg, transparent 0 10px, rgba(255,255,255,0.14) 10px 22px, transparent 22px 32px);
+    background-blend-mode: normal;
+    mask-image: repeating-linear-gradient(90deg, #000 0 14px, transparent 14px 32px);
+    -webkit-mask-image: repeating-linear-gradient(90deg, #000 0 14px, transparent 14px 32px);
+    background-color: rgba(255,255,255,0.12);
+    border-radius: 3px;
+    opacity: 0.6;
+  }
+  /* subtle film grain over dark hero areas */
+  .grain::after {
+    content: '';
+    position: absolute; inset: 0; pointer-events: none; opacity: 0.07; mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='160' height='160' filter='url(%23n)'/></svg>");
+  }
+  /* skeleton loading shimmer */
+  .skeleton { @apply relative overflow-hidden bg-white/[0.06] rounded-xl; }
+  .skeleton::after {
+    content: ''; position: absolute; inset: 0; transform: translateX(-100%);
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.07), transparent);
+    animation: shimmer 1.4s infinite;
+  }
+
+  /* ---------- paper ticket (digital pass, receipts) ---------- */
+  .paper-ticket {
+    position: relative;
+    background: #F3E9D2;
+    color: #1B1710;
+    border-radius: 18px;
+    --notch: 14px;
+    -webkit-mask: radial-gradient(circle var(--notch) at 0 var(--notch-y, 66%), transparent 98%, #000) left / 51% 100% no-repeat,
+                  radial-gradient(circle var(--notch) at 100% var(--notch-y, 66%), transparent 98%, #000) right / 51% 100% no-repeat;
+            mask: radial-gradient(circle var(--notch) at 0 var(--notch-y, 66%), transparent 98%, #000) left / 51% 100% no-repeat,
+                  radial-gradient(circle var(--notch) at 100% var(--notch-y, 66%), transparent 98%, #000) right / 51% 100% no-repeat;
+  }
+  .perforation { border-top: 2px dashed rgba(27, 23, 16, 0.28); }
+  .barcode {
+    height: 44px;
+    background: repeating-linear-gradient(90deg, #1B1710 0 2px, transparent 2px 4px, #1B1710 4px 5px, transparent 5px 8px, #1B1710 8px 11px, transparent 11px 13px);
+  }
+}
+
+@layer utilities {
+  .pb-safe { padding-bottom: max(1rem, env(safe-area-inset-bottom)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}
+
+/* ---------- printing: only the ticket ---------- */
+@media print {
+  body * { visibility: hidden; }
+  #printable-ticket, #printable-ticket * { visibility: visible; }
+  #printable-ticket { position: absolute; left: 0; top: 0; width: 100%; -webkit-mask: none !important; mask: none !important; }
+  .no-print { display: none !important; }
+}
